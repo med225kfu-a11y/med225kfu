@@ -14,6 +14,73 @@ export type Database = {
   }
   public: {
     Tables: {
+      lesson_quiz_links: {
+        Row: {
+          created_at: string
+          display_order: number
+          id: string
+          lesson_id: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          lesson_id: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          lesson_id?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_quiz_links_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lesson_video_links: {
+        Row: {
+          created_at: string
+          display_order: number
+          id: string
+          lesson_id: string
+          title: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          lesson_id: string
+          title: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          lesson_id?: string
+          title?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_video_links_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lessons: {
         Row: {
           created_at: string
@@ -165,6 +232,7 @@ export type Database = {
         | "will_be_transcribed"
         | "no_transcription"
         | "previous_batch_sufficient"
+        | "not_studied_yet"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -298,6 +366,7 @@ export const Constants = {
         "will_be_transcribed",
         "no_transcription",
         "previous_batch_sufficient",
+        "not_studied_yet",
       ],
     },
   },

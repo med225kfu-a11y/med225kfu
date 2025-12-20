@@ -65,6 +65,7 @@ export default {
           "will-transcribe": "hsl(var(--status-will-transcribe))",
           "no-transcription": "hsl(var(--status-no-transcription))",
           "previous-batch": "hsl(var(--status-previous-batch))",
+          "not-studied": "hsl(var(--status-not-studied))",
         },
       },
       borderRadius: {
