@@ -43,6 +43,7 @@
     --status-will-transcribe: 196 20% 54%; /* #78929C */
     --status-no-transcription: 0 52% 68%; /* #DB8080 */
     --status-previous-batch: 0 7% 63%; /* #AFA0A0 */
+    --status-not-studied: 0 0% 0%; /* #000000 */
 
     /* Sidebar colors */
     --sidebar-background: 34 23% 91%;

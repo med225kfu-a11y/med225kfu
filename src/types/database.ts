@@ -2,7 +2,8 @@ export type LessonStatus =
   | 'uploaded_transcription'
   | 'will_be_transcribed'
   | 'no_transcription'
-  | 'previous_batch_sufficient';
+  | 'previous_batch_sufficient'
+  | 'not_studied_yet';
 
 export interface Unit {
   id: string;
@@ -44,4 +45,22 @@ export const LESSON_STATUS_CONFIG: Record<LessonStatus, { label: string; color: 
   will_be_transcribed: { label: 'Will be transcribed', color: 'bg-status-will-transcribe' },
   no_transcription: { label: 'No transcription available', color: 'bg-status-no-transcription' },
   previous_batch_sufficient: { label: 'Previous batch transcription is sufficient', color: 'bg-status-previous-batch' },
+  not_studied_yet: { label: 'Not studied yet', color: 'bg-status-not-studied' },
 };
+
+export interface LessonQuizLink {
+  id: string;
+  lesson_id: string;
+  url: string;
+  display_order: number;
+  created_at: string;
+}
+
+export interface LessonVideoLink {
+  id: string;
+  lesson_id: string;
+  title: string;
+  url: string;
+  display_order: number;
+  created_at: string;
+}
