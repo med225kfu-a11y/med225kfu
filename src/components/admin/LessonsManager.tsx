@@ -39,6 +39,7 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Plus, Pencil, Trash2, FileText, X, Video, ExternalLink } from 'lucide-react';
 import { StatusBadge } from '@/components/StatusBadge';
+import { FileSourceEditor } from '@/components/admin/FileSourceEditor';
 
 function QuizLinksEditor({ lessonId }: { lessonId: string }) {
   const { data: quizLinks, isLoading } = useQuizLinks(lessonId);
@@ -237,7 +238,9 @@ export function LessonsManager() {
           status: editingLesson.status,
           notes: editingLesson.notes || null,
           transcription_url: editingLesson.transcription_url,
+          transcription_link: editingLesson.transcription_link,
           summary_url: editingLesson.summary_url,
+          summary_link: editingLesson.summary_link,
         }
       });
       setIsDialogOpen(false);
@@ -415,43 +418,25 @@ export function LessonsManager() {
                             />
                           </div>
                           
-                          <div className="space-y-2">
-                            <Label>Transcription PDF</Label>
-                            {editingLesson.transcription_url ? (
-                              <div className="flex items-center gap-2">
-                                <span className="text-sm text-muted-foreground truncate flex-1">File uploaded</span>
-                                <Button size="sm" variant="outline" onClick={() => handleRemoveFile('transcription')}>
-                                  <X className="h-4 w-4" />
-                                </Button>
-                              </div>
-                            ) : (
-                              <Input
-                                type="file"
-                                accept=".pdf"
-                                onChange={(e) => e.target.files?.[0] && handleFileUpload('transcription', e.target.files[0])}
-                                disabled={isUploading}
-                              />
-                            )}
-                          </div>
+                          <FileSourceEditor
+                            label="Transcription PDF"
+                            uploadUrl={editingLesson.transcription_url}
+                            linkUrl={editingLesson.transcription_link}
+                            onUpload={(file) => handleFileUpload('transcription', file)}
+                            onLinkChange={(link) => setEditingLesson((prev: any) => ({ ...prev, transcription_link: link }))}
+                            onRemoveUpload={() => handleRemoveFile('transcription')}
+                            isUploading={isUploading}
+                          />
                           
-                          <div className="space-y-2">
-                            <Label>Summary PDF</Label>
-                            {editingLesson.summary_url ? (
-                              <div className="flex items-center gap-2">
-                                <span className="text-sm text-muted-foreground truncate flex-1">File uploaded</span>
-                                <Button size="sm" variant="outline" onClick={() => handleRemoveFile('summary')}>
-                                  <X className="h-4 w-4" />
-                                </Button>
-                              </div>
-                            ) : (
-                              <Input
-                                type="file"
-                                accept=".pdf"
-                                onChange={(e) => e.target.files?.[0] && handleFileUpload('summary', e.target.files[0])}
-                                disabled={isUploading}
-                              />
-                            )}
-                          </div>
+                          <FileSourceEditor
+                            label="Summary PDF"
+                            uploadUrl={editingLesson.summary_url}
+                            linkUrl={editingLesson.summary_link}
+                            onUpload={(file) => handleFileUpload('summary', file)}
+                            onLinkChange={(link) => setEditingLesson((prev: any) => ({ ...prev, summary_link: link }))}
+                            onRemoveUpload={() => handleRemoveFile('summary')}
+                            isUploading={isUploading}
+                          />
                           
                           {/* Quiz Links Editor */}
                           <QuizLinksEditor lessonId={editingLesson.id} />
