@@ -1,7 +1,7 @@
 import { Lesson } from '@/types/database';
 import { StatusBadge } from './StatusBadge';
 import { Button } from '@/components/ui/button';
-import { Download, Video, ExternalLink } from 'lucide-react';
+import { Download, Video, ExternalLink, Link } from 'lucide-react';
 import { useQuizLinks } from '@/hooks/useQuizLinks';
 import { useVideoLinks } from '@/hooks/useVideoLinks';
 
@@ -13,6 +13,14 @@ export function LessonCard({ lesson }: LessonCardProps) {
   const { data: quizLinks } = useQuizLinks(lesson.id);
   const { data: videoLinks } = useVideoLinks(lesson.id);
 
+  // Determine the source for transcription (upload takes priority, but either works)
+  const transcriptionSource = lesson.transcription_url || lesson.transcription_link;
+  const isTranscriptionUpload = !!lesson.transcription_url;
+  
+  // Determine the source for summary (upload takes priority, but either works)
+  const summarySource = lesson.summary_url || lesson.summary_link;
+  const isSummaryUpload = !!lesson.summary_url;
+
   return (
     <div className="bg-background rounded-lg p-4 border border-border">
       <div className="flex flex-col gap-3">
@@ -22,29 +30,29 @@ export function LessonCard({ lesson }: LessonCardProps) {
         </div>
         
         <div className="flex flex-wrap gap-2">
-          {lesson.transcription_url && (
+          {transcriptionSource && (
             <Button
               variant="outline"
               size="sm"
               asChild
               className="gap-2"
             >
-              <a href={lesson.transcription_url} target="_blank" rel="noopener noreferrer" download>
-                <Download className="h-4 w-4" />
+              <a href={transcriptionSource} target="_blank" rel="noopener noreferrer" download={isTranscriptionUpload ? true : undefined}>
+                {isTranscriptionUpload ? <Download className="h-4 w-4" /> : <Link className="h-4 w-4" />}
                 Transcription
               </a>
             </Button>
           )}
           
-          {lesson.summary_url && (
+          {summarySource && (
             <Button
               variant="outline"
               size="sm"
               asChild
               className="gap-2"
             >
-              <a href={lesson.summary_url} target="_blank" rel="noopener noreferrer" download>
-                <Download className="h-4 w-4" />
+              <a href={summarySource} target="_blank" rel="noopener noreferrer" download={isSummaryUpload ? true : undefined}>
+                {isSummaryUpload ? <Download className="h-4 w-4" /> : <Link className="h-4 w-4" />}
                 Summary
               </a>
             </Button>

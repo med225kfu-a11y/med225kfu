@@ -109,8 +109,10 @@ export type Database = {
           id: string
           notes: string | null
           status: Database["public"]["Enums"]["lesson_status"]
+          summary_link: string | null
           summary_url: string | null
           title: string
+          transcription_link: string | null
           transcription_url: string | null
           unit_id: string
           updated_at: string
@@ -121,8 +123,10 @@ export type Database = {
           id?: string
           notes?: string | null
           status?: Database["public"]["Enums"]["lesson_status"]
+          summary_link?: string | null
           summary_url?: string | null
           title: string
+          transcription_link?: string | null
           transcription_url?: string | null
           unit_id: string
           updated_at?: string
@@ -133,8 +137,10 @@ export type Database = {
           id?: string
           notes?: string | null
           status?: Database["public"]["Enums"]["lesson_status"]
+          summary_link?: string | null
           summary_url?: string | null
           title?: string
+          transcription_link?: string | null
           transcription_url?: string | null
           unit_id?: string
           updated_at?: string

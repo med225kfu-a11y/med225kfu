@@ -27,7 +27,9 @@ export interface Lesson {
   title: string;
   status: LessonStatus;
   transcription_url: string | null;
+  transcription_link: string | null;
   summary_url: string | null;
+  summary_link: string | null;
   notes: string | null;
   display_order: number;
   created_at: string;
