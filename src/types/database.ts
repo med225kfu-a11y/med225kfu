@@ -5,8 +5,16 @@ export type LessonStatus =
   | 'previous_batch_sufficient'
   | 'not_studied_yet';
 
+export interface Category {
+  id: string;
+  name: string;
+  display_order: number;
+  created_at: string;
+}
+
 export interface Unit {
   id: string;
+  category_id: string;
   name: string;
   display_order: number;
   created_at: string;

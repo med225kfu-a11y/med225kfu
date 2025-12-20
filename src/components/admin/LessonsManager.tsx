@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useCategories } from '@/hooks/useCategories';
 import { useUnits } from '@/hooks/useUnits';
 import { useAllLessons, useCreateLesson, useUpdateLesson, useDeleteLesson } from '@/hooks/useLessons';
 import { useFileUpload } from '@/hooks/useFileUpload';
@@ -192,6 +193,7 @@ function VideoLinksEditor({ lessonId }: { lessonId: string }) {
 }
 
 export function LessonsManager() {
+  const { data: categories } = useCategories();
   const { data: units } = useUnits();
   const { data: lessons, isLoading } = useAllLessons();
   const createLesson = useCreateLesson();
@@ -297,14 +299,24 @@ export function LessonsManager() {
       <CardContent className="space-y-4">
         <div className="flex flex-col sm:flex-row gap-2">
           <Select value={selectedUnitId} onValueChange={setSelectedUnitId}>
-            <SelectTrigger className="sm:w-[200px]">
+            <SelectTrigger className="sm:w-[250px]">
               <SelectValue placeholder="Select unit" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Units</SelectItem>
-              {units?.map((unit) => (
-                <SelectItem key={unit.id} value={unit.id}>{unit.name}</SelectItem>
-              ))}
+              {categories?.map((category) => {
+                const categoryUnits = units?.filter(u => u.category_id === category.id) || [];
+                return categoryUnits.length > 0 ? (
+                  <div key={category.id}>
+                    <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">{category.name}</div>
+                    {categoryUnits.map((unit) => (
+                      <SelectItem key={unit.id} value={unit.id}>
+                        {unit.name}
+                      </SelectItem>
+                    ))}
+                  </div>
+                ) : null;
+              })}
             </SelectContent>
           </Select>
           
