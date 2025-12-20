@@ -17,14 +17,32 @@ export function useUnits() {
   });
 }
 
+export function useUnitsByCategory(categoryId?: string) {
+  return useQuery({
+    queryKey: ['units', 'category', categoryId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('units')
+        .select('*')
+        .eq('category_id', categoryId!)
+        .order('display_order', { ascending: true });
+      
+      if (error) throw error;
+      return data as Unit[];
+    },
+    enabled: !!categoryId,
+  });
+}
+
 export function useCreateUnit() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (name: string) => {
+    mutationFn: async ({ name, categoryId }: { name: string; categoryId: string }) => {
       const { data: existingUnits } = await supabase
         .from('units')
         .select('display_order')
+        .eq('category_id', categoryId)
         .order('display_order', { ascending: false })
         .limit(1);
       
@@ -34,7 +52,7 @@ export function useCreateUnit() {
 
       const { data, error } = await supabase
         .from('units')
-        .insert({ name, display_order: nextOrder })
+        .insert({ name, category_id: categoryId, display_order: nextOrder })
         .select()
         .single();
       

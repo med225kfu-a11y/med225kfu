@@ -1,15 +1,17 @@
 import { Header } from '@/components/Header';
 import { UnitAccordion } from '@/components/UnitAccordion';
+import { useCategories } from '@/hooks/useCategories';
 import { useUnits } from '@/hooks/useUnits';
 import { useAllLessons } from '@/hooks/useLessons';
 import { Link } from 'react-router-dom';
 import { Settings, Loader2 } from 'lucide-react';
 
 const Index = () => {
+  const { data: categories, isLoading: categoriesLoading } = useCategories();
   const { data: units, isLoading: unitsLoading } = useUnits();
   const { data: lessons, isLoading: lessonsLoading } = useAllLessons();
 
-  const isLoading = unitsLoading || lessonsLoading;
+  const isLoading = categoriesLoading || unitsLoading || lessonsLoading;
 
   return (
     <div className="min-h-screen bg-background">
@@ -21,7 +23,11 @@ const Index = () => {
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
         ) : (
-          <UnitAccordion units={units || []} lessons={lessons || []} />
+          <UnitAccordion 
+            categories={categories || []} 
+            units={units || []} 
+            lessons={lessons || []} 
+          />
         )}
       </main>
       

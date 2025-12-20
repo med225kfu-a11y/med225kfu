@@ -14,6 +14,27 @@ export type Database = {
   }
   public: {
     Tables: {
+      categories: {
+        Row: {
+          created_at: string
+          display_order: number
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
       lesson_quiz_links: {
         Row: {
           created_at: string
@@ -169,6 +190,7 @@ export type Database = {
       }
       units: {
         Row: {
+          category_id: string
           created_at: string
           display_order: number
           id: string
@@ -176,6 +198,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          category_id: string
           created_at?: string
           display_order?: number
           id?: string
@@ -183,13 +206,22 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          category_id?: string
           created_at?: string
           display_order?: number
           id?: string
           name?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "units_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
