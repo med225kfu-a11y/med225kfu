@@ -13,6 +13,9 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        serif: ['Alice', 'Georgia', 'serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -56,6 +59,12 @@ export default {
           "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
+        },
+        status: {
+          uploaded: "hsl(var(--status-uploaded))",
+          "will-transcribe": "hsl(var(--status-will-transcribe))",
+          "no-transcription": "hsl(var(--status-no-transcription))",
+          "previous-batch": "hsl(var(--status-previous-batch))",
         },
       },
       borderRadius: {

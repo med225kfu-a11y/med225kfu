@@ -1,0 +1,47 @@
+export type LessonStatus = 
+  | 'uploaded_transcription'
+  | 'will_be_transcribed'
+  | 'no_transcription'
+  | 'previous_batch_sufficient';
+
+export interface Unit {
+  id: string;
+  name: string;
+  display_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Lesson {
+  id: string;
+  unit_id: string;
+  title: string;
+  status: LessonStatus;
+  transcription_url: string | null;
+  summary_url: string | null;
+  notes: string | null;
+  display_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface SiteSettings {
+  id: string;
+  site_title: string;
+  logo_url: string | null;
+  updated_at: string;
+}
+
+export interface UserRole {
+  id: string;
+  user_id: string;
+  role: 'admin' | 'user';
+  created_at: string;
+}
+
+export const LESSON_STATUS_CONFIG: Record<LessonStatus, { label: string; color: string }> = {
+  uploaded_transcription: { label: 'Uploaded transcription', color: 'bg-status-uploaded' },
+  will_be_transcribed: { label: 'Will be transcribed', color: 'bg-status-will-transcribe' },
+  no_transcription: { label: 'No transcription available', color: 'bg-status-no-transcription' },
+  previous_batch_sufficient: { label: 'Previous batch transcription is sufficient', color: 'bg-status-previous-batch' },
+};
