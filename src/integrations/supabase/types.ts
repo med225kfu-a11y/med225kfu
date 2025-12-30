@@ -35,6 +35,79 @@ export type Database = {
         }
         Relationships: []
       }
+      lesson_additional_files: {
+        Row: {
+          created_at: string
+          display_order: number
+          file_url: string | null
+          id: string
+          label: string
+          lesson_id: string
+          link_url: string | null
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          file_url?: string | null
+          id?: string
+          label: string
+          lesson_id: string
+          link_url?: string | null
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          file_url?: string | null
+          id?: string
+          label?: string
+          lesson_id?: string
+          link_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_additional_files_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lesson_help_center: {
+        Row: {
+          content: string
+          created_at: string
+          entry_type: string
+          id: string
+          lesson_id: string
+          link_url: string | null
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          entry_type: string
+          id?: string
+          lesson_id: string
+          link_url?: string | null
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          entry_type?: string
+          id?: string
+          lesson_id?: string
+          link_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_help_center_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lesson_quiz_links: {
         Row: {
           created_at: string
