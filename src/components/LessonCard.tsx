@@ -7,6 +7,7 @@ import { useQuizLinks } from '@/hooks/useQuizLinks';
 import { useVideoLinks } from '@/hooks/useVideoLinks';
 import { useAdditionalFiles } from '@/hooks/useAdditionalFiles';
 import { useHelpCenter } from '@/hooks/useHelpCenter';
+import { linkifyText } from '@/lib/linkify';
 import {
   Collapsible,
   CollapsibleContent,
@@ -165,10 +166,10 @@ export function LessonCard({ lesson }: LessonCardProps) {
                         )}
                         <span>{new Date(entry.created_at).toLocaleDateString()}</span>
                       </div>
-                      <p className="text-sm text-foreground whitespace-pre-wrap">{entry.content}</p>
+                      <p className="text-sm text-foreground whitespace-pre-wrap">{linkifyText(entry.content)}</p>
                       {entry.link_url && (
                         <a 
-                          href={entry.link_url} 
+                          href={entry.link_url}
                           target="_blank" 
                           rel="noopener noreferrer"
                           className="text-sm text-primary hover:underline mt-2 inline-block"
