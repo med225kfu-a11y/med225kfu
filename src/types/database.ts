@@ -74,3 +74,22 @@ export interface LessonVideoLink {
   display_order: number;
   created_at: string;
 }
+
+export interface LessonAdditionalFile {
+  id: string;
+  lesson_id: string;
+  label: string;
+  file_url: string | null;
+  link_url: string | null;
+  display_order: number;
+  created_at: string;
+}
+
+export interface LessonHelpCenterEntry {
+  id: string;
+  lesson_id: string;
+  entry_type: 'text' | 'link';
+  content: string;
+  link_url: string | null;
+  created_at: string;
+}

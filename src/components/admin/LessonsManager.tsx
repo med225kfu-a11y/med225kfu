@@ -40,6 +40,8 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2, Plus, Pencil, Trash2, FileText, X, Video, ExternalLink } from 'lucide-react';
 import { StatusBadge } from '@/components/StatusBadge';
 import { FileSourceEditor } from '@/components/admin/FileSourceEditor';
+import { AdditionalFilesEditor } from '@/components/admin/AdditionalFilesEditor';
+import { HelpCenterEditor } from '@/components/admin/HelpCenterEditor';
 
 function QuizLinksEditor({ lessonId }: { lessonId: string }) {
   const { data: quizLinks, isLoading } = useQuizLinks(lessonId);
@@ -428,21 +430,17 @@ export function LessonsManager() {
                             isUploading={isUploading}
                           />
                           
-                          <FileSourceEditor
-                            label="Summary PDF"
-                            uploadUrl={editingLesson.summary_url}
-                            linkUrl={editingLesson.summary_link}
-                            onUpload={(file) => handleFileUpload('summary', file)}
-                            onLinkChange={(link) => setEditingLesson((prev: any) => ({ ...prev, summary_link: link }))}
-                            onRemoveUpload={() => handleRemoveFile('summary')}
-                            isUploading={isUploading}
-                          />
+                          {/* Additional Files Editor (replaces Summary) */}
+                          <AdditionalFilesEditor lessonId={editingLesson.id} />
                           
                           {/* Quiz Links Editor */}
                           <QuizLinksEditor lessonId={editingLesson.id} />
                           
                           {/* Video Links Editor */}
                           <VideoLinksEditor lessonId={editingLesson.id} />
+                          
+                          {/* Help Center Editor */}
+                          <HelpCenterEditor lessonId={editingLesson.id} />
                           
                           <div className="flex justify-end gap-2">
                             <Button variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
