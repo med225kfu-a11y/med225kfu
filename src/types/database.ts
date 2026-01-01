@@ -93,3 +93,11 @@ export interface LessonHelpCenterEntry {
   link_url: string | null;
   created_at: string;
 }
+
+export interface CountdownEvent {
+  id: string;
+  name: string;
+  event_datetime: string;
+  created_at: string;
+  updated_at: string;
+}

@@ -6,6 +6,7 @@ import { SiteSettingsManager } from '@/components/admin/SiteSettingsManager';
 import { UnitsManager } from '@/components/admin/UnitsManager';
 import { LessonsManager } from '@/components/admin/LessonsManager';
 import { UserManagement } from '@/components/admin/UserManagement';
+import { CountdownEventsManager } from '@/components/admin/CountdownEventsManager';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Loader2, LogOut, Settings, BookOpen, Users } from 'lucide-react';
@@ -74,6 +75,7 @@ export default function Admin() {
           </TabsList>
           
           <TabsContent value="content" className="space-y-8">
+            <CountdownEventsManager />
             <SiteSettingsManager />
             <UnitsManager />
             <LessonsManager />

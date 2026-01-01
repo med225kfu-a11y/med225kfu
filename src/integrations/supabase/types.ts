@@ -35,6 +35,30 @@ export type Database = {
         }
         Relationships: []
       }
+      countdown_events: {
+        Row: {
+          created_at: string
+          event_datetime: string
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          event_datetime: string
+          id?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          event_datetime?: string
+          id?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       lesson_additional_files: {
         Row: {
           created_at: string
