@@ -59,6 +59,33 @@ export type Database = {
         }
         Relationships: []
       }
+      courses: {
+        Row: {
+          created_at: string
+          display_order: number
+          id: string
+          name: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          name: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          name?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       lesson_additional_files: {
         Row: {
           created_at: string
@@ -294,6 +321,7 @@ export type Database = {
       units: {
         Row: {
           category_id: string
+          course_id: string
           created_at: string
           display_order: number
           id: string
@@ -302,6 +330,7 @@ export type Database = {
         }
         Insert: {
           category_id: string
+          course_id: string
           created_at?: string
           display_order?: number
           id?: string
@@ -310,6 +339,7 @@ export type Database = {
         }
         Update: {
           category_id?: string
+          course_id?: string
           created_at?: string
           display_order?: number
           id?: string
@@ -322,6 +352,13 @@ export type Database = {
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "units_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
             referencedColumns: ["id"]
           },
         ]

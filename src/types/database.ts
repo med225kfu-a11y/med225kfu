@@ -1,4 +1,4 @@
-export type LessonStatus = 
+export type LessonStatus =
   | 'uploaded_transcription'
   | 'will_be_transcribed'
   | 'no_transcription'
@@ -12,9 +12,19 @@ export interface Category {
   created_at: string;
 }
 
+export interface Course {
+  id: string;
+  name: string;
+  status: 'active' | 'hidden';
+  display_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Unit {
   id: string;
   category_id: string;
+  course_id: string;
   name: string;
   display_order: number;
   created_at: string;

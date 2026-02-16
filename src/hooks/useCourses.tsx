@@ -1,58 +1,71 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { Unit } from '@/types/database';
+import { Course } from '@/types/database';
 
-export function useUnits() {
+export function useCourses() {
   return useQuery({
-    queryKey: ['units'],
+    queryKey: ['courses'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('units')
+        .from('courses')
         .select('*')
         .order('display_order', { ascending: true });
       
       if (error) throw error;
-      return data as Unit[];
+      return data as Course[];
     },
   });
 }
 
-export function useUnitsByCategory(categoryId?: string) {
+export function useActiveCourses() {
   return useQuery({
-    queryKey: ['units', 'category', categoryId],
+    queryKey: ['courses', 'active'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('units')
+        .from('courses')
         .select('*')
-        .eq('category_id', categoryId!)
+        .eq('status', 'active')
         .order('display_order', { ascending: true });
       
       if (error) throw error;
-      return data as Unit[];
+      return data as Course[];
     },
-    enabled: !!categoryId,
   });
 }
 
-export function useCreateUnit() {
+export function useCourse(id?: string) {
+  return useQuery({
+    queryKey: ['courses', id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('courses')
+        .select('*')
+        .eq('id', id!)
+        .single();
+      
+      if (error) throw error;
+      return data as Course;
+    },
+    enabled: !!id,
+  });
+}
+
+export function useCreateCourse() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ name, categoryId, courseId }: { name: string; categoryId: string; courseId: string }) => {
-      const { data: existingUnits } = await supabase
-        .from('units')
+    mutationFn: async ({ name }: { name: string }) => {
+      const { data: existing } = await supabase
+        .from('courses')
         .select('display_order')
-        .eq('category_id', categoryId)
         .order('display_order', { ascending: false })
         .limit(1);
       
-      const nextOrder = existingUnits && existingUnits.length > 0 
-        ? existingUnits[0].display_order + 1 
-        : 0;
+      const nextOrder = existing && existing.length > 0 ? existing[0].display_order + 1 : 0;
 
       const { data, error } = await supabase
-        .from('units')
-        .insert({ name, category_id: categoryId, course_id: courseId, display_order: nextOrder })
+        .from('courses')
+        .insert({ name, display_order: nextOrder })
         .select()
         .single();
       
@@ -60,18 +73,18 @@ export function useCreateUnit() {
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['units'] });
+      queryClient.invalidateQueries({ queryKey: ['courses'] });
     },
   });
 }
 
-export function useUpdateUnit() {
+export function useUpdateCourse() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, updates }: { id: string; updates: Partial<Unit> }) => {
+    mutationFn: async ({ id, updates }: { id: string; updates: Partial<Course> }) => {
       const { data, error } = await supabase
-        .from('units')
+        .from('courses')
         .update(updates)
         .eq('id', id)
         .select()
@@ -81,24 +94,25 @@ export function useUpdateUnit() {
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['units'] });
+      queryClient.invalidateQueries({ queryKey: ['courses'] });
     },
   });
 }
 
-export function useDeleteUnit() {
+export function useDeleteCourse() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase
-        .from('units')
+        .from('courses')
         .delete()
         .eq('id', id);
       
       if (error) throw error;
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['courses'] });
       queryClient.invalidateQueries({ queryKey: ['units'] });
       queryClient.invalidateQueries({ queryKey: ['lessons'] });
     },

@@ -1,18 +1,12 @@
 import { Header } from '@/components/Header';
-import { UnitAccordion } from '@/components/UnitAccordion';
+import { CoursesList } from '@/components/CoursesList';
 import { CountdownDisplay } from '@/components/CountdownDisplay';
-import { useCategories } from '@/hooks/useCategories';
-import { useUnits } from '@/hooks/useUnits';
-import { useAllLessons } from '@/hooks/useLessons';
+import { useActiveCourses } from '@/hooks/useCourses';
 import { Link } from 'react-router-dom';
 import { Settings, Loader2 } from 'lucide-react';
 
 const Index = () => {
-  const { data: categories, isLoading: categoriesLoading } = useCategories();
-  const { data: units, isLoading: unitsLoading } = useUnits();
-  const { data: lessons, isLoading: lessonsLoading } = useAllLessons();
-
-  const isLoading = categoriesLoading || unitsLoading || lessonsLoading;
+  const { data: courses, isLoading } = useActiveCourses();
 
   return (
     <div className="min-h-screen bg-background">
@@ -25,11 +19,7 @@ const Index = () => {
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
         ) : (
-          <UnitAccordion
-            categories={categories || []} 
-            units={units || []} 
-            lessons={lessons || []} 
-          />
+          <CoursesList courses={courses || []} />
         )}
       </main>
       
