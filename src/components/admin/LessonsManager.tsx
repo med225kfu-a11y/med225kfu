@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useCategories } from '@/hooks/useCategories';
 import { useUnits } from '@/hooks/useUnits';
+import { useCourses } from '@/hooks/useCourses';
 import { useAllLessons, useCreateLesson, useUpdateLesson, useDeleteLesson } from '@/hooks/useLessons';
 import { useFileUpload } from '@/hooks/useFileUpload';
 import { useQuizLinks, useCreateQuizLink, useDeleteQuizLink } from '@/hooks/useQuizLinks';
@@ -198,6 +199,7 @@ function VideoLinksEditor({ lessonId }: { lessonId: string }) {
 export function LessonsManager() {
   const { data: categories } = useCategories();
   const { data: units } = useUnits();
+  const { data: courses } = useCourses();
   const { data: lessons, isLoading } = useAllLessons();
   const createLesson = useCreateLesson();
   const updateLesson = useUpdateLesson();
@@ -309,12 +311,12 @@ export function LessonsManager() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Units</SelectItem>
-              {categories?.map((category) => {
-                const categoryUnits = units?.filter(u => u.category_id === category.id) || [];
-                return categoryUnits.length > 0 ? (
-                  <div key={category.id}>
-                    <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">{category.name}</div>
-                    {categoryUnits.map((unit) => (
+              {courses?.map((course) => {
+                const courseUnits = units?.filter(u => u.course_id === course.id) || [];
+                return courseUnits.length > 0 ? (
+                  <div key={course.id}>
+                    <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">{course.name}</div>
+                    {courseUnits.map((unit) => (
                       <SelectItem key={unit.id} value={unit.id}>
                         {unit.name}
                       </SelectItem>

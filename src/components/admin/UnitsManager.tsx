@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useCategories } from '@/hooks/useCategories';
 import { useUnits, useCreateUnit, useUpdateUnit, useDeleteUnit } from '@/hooks/useUnits';
+import { useCourses } from '@/hooks/useCourses';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -28,24 +29,26 @@ import { Loader2, Plus, Pencil, Trash2, BookOpen, Check, X, FolderOpen } from 'l
 export function UnitsManager() {
   const { data: categories } = useCategories();
   const { data: units, isLoading } = useUnits();
+  const { data: courses } = useCourses();
   const createUnit = useCreateUnit();
   const updateUnit = useUpdateUnit();
   const deleteUnit = useDeleteUnit();
   const { toast } = useToast();
   
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
+  const [selectedCourseId, setSelectedCourseId] = useState<string>('');
   const [newUnitName, setNewUnitName] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingName, setEditingName] = useState('');
 
   const handleCreateUnit = async () => {
-    if (!newUnitName.trim() || !selectedCategoryId) {
-      toast({ title: 'Please select a category and enter a unit name', variant: 'destructive' });
+    if (!newUnitName.trim() || !selectedCategoryId || !selectedCourseId) {
+      toast({ title: 'Please select a course, category and enter a unit name', variant: 'destructive' });
       return;
     }
     
     try {
-      await createUnit.mutateAsync({ name: newUnitName.trim(), categoryId: selectedCategoryId });
+      await createUnit.mutateAsync({ name: newUnitName.trim(), categoryId: selectedCategoryId, courseId: selectedCourseId });
       setNewUnitName('');
       toast({ title: 'Unit created successfully' });
     } catch {
@@ -97,8 +100,18 @@ export function UnitsManager() {
       <CardContent className="space-y-6">
         {/* Create Unit Section */}
         <div className="flex flex-col sm:flex-row gap-2">
+          <Select value={selectedCourseId} onValueChange={setSelectedCourseId}>
+            <SelectTrigger className="sm:w-[180px]">
+              <SelectValue placeholder="Select course" />
+            </SelectTrigger>
+            <SelectContent>
+              {courses?.map((course) => (
+                <SelectItem key={course.id} value={course.id}>{course.name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           <Select value={selectedCategoryId} onValueChange={setSelectedCategoryId}>
-            <SelectTrigger className="sm:w-[200px]">
+            <SelectTrigger className="sm:w-[180px]">
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>
@@ -114,7 +127,7 @@ export function UnitsManager() {
             className="flex-1"
             onKeyDown={(e) => e.key === 'Enter' && handleCreateUnit()}
           />
-          <Button onClick={handleCreateUnit} disabled={createUnit.isPending || !selectedCategoryId}>
+          <Button onClick={handleCreateUnit} disabled={createUnit.isPending || !selectedCategoryId || !selectedCourseId}>
             {createUnit.isPending ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
@@ -139,61 +152,69 @@ export function UnitsManager() {
                 <p className="text-muted-foreground text-sm pl-6">No units in this category yet.</p>
               ) : (
                 <div className="space-y-2 pl-6">
-                  {categoryUnits.map((unit) => (
-                    <div key={unit.id} className="flex items-center gap-2 p-3 bg-muted rounded-lg">
-                      {editingId === unit.id ? (
-                        <>
-                          <Input
-                            value={editingName}
-                            onChange={(e) => setEditingName(e.target.value)}
-                            className="flex-1"
-                            onKeyDown={(e) => e.key === 'Enter' && handleUpdateUnit(unit.id)}
-                          />
-                          <Button size="sm" onClick={() => handleUpdateUnit(unit.id)}>
-                            <Check className="h-4 w-4" />
-                          </Button>
-                          <Button size="sm" variant="outline" onClick={() => setEditingId(null)}>
-                            <X className="h-4 w-4" />
-                          </Button>
-                        </>
-                      ) : (
-                        <>
-                          <span className="flex-1 font-medium">{unit.name}</span>
-                          <Button 
-                            size="sm" 
-                            variant="ghost"
-                            onClick={() => {
-                              setEditingId(unit.id);
-                              setEditingName(unit.name);
-                            }}
-                          >
-                            <Pencil className="h-4 w-4" />
-                          </Button>
-                          <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                              <Button size="sm" variant="ghost" className="text-destructive">
-                                <Trash2 className="h-4 w-4" />
-                              </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>Delete Unit</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                  This will permanently delete "{unit.name}" and all its lessons. This action cannot be undone.
-                                </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={() => handleDeleteUnit(unit.id)}>
-                                  Delete
-                                </AlertDialogAction>
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialog>
-                        </>
-                      )}
-                    </div>
-                  ))}
+                  {categoryUnits.map((unit) => {
+                    const course = courses?.find(c => c.id === unit.course_id);
+                    return (
+                      <div key={unit.id} className="flex items-center gap-2 p-3 bg-muted rounded-lg">
+                        {editingId === unit.id ? (
+                          <>
+                            <Input
+                              value={editingName}
+                              onChange={(e) => setEditingName(e.target.value)}
+                              className="flex-1"
+                              onKeyDown={(e) => e.key === 'Enter' && handleUpdateUnit(unit.id)}
+                            />
+                            <Button size="sm" onClick={() => handleUpdateUnit(unit.id)}>
+                              <Check className="h-4 w-4" />
+                            </Button>
+                            <Button size="sm" variant="outline" onClick={() => setEditingId(null)}>
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </>
+                        ) : (
+                          <>
+                            <span className="flex-1 font-medium">{unit.name}</span>
+                            {course && (
+                              <span className="text-xs text-muted-foreground bg-background px-2 py-0.5 rounded">
+                                {course.name}
+                              </span>
+                            )}
+                            <Button 
+                              size="sm" 
+                              variant="ghost"
+                              onClick={() => {
+                                setEditingId(unit.id);
+                                setEditingName(unit.name);
+                              }}
+                            >
+                              <Pencil className="h-4 w-4" />
+                            </Button>
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <Button size="sm" variant="ghost" className="text-destructive">
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>Delete Unit</AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    This will permanently delete "{unit.name}" and all its lessons. This action cannot be undone.
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                  <AlertDialogAction onClick={() => handleDeleteUnit(unit.id)}>
+                                    Delete
+                                  </AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                          </>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </div>
