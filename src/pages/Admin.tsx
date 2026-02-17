@@ -3,24 +3,22 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { AdminHeader } from '@/components/Header';
 import { SiteSettingsManager } from '@/components/admin/SiteSettingsManager';
-import { UnitsManager } from '@/components/admin/UnitsManager';
-import { LessonsManager } from '@/components/admin/LessonsManager';
 import { UserManagement } from '@/components/admin/UserManagement';
 import { CountdownEventsManager } from '@/components/admin/CountdownEventsManager';
 import { CoursesManager } from '@/components/admin/CoursesManager';
+import { CourseDetailManager } from '@/components/admin/CourseDetailManager';
 import { Button } from '@/components/ui/button';
 import { 
-  Loader2, LogOut, Settings, BookOpen, Users, GraduationCap, 
-  Clock, FileText, Menu, X 
+  Loader2, LogOut, Settings, Users, GraduationCap, 
+  Clock, Menu, X 
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Course } from '@/types/database';
 
-type AdminSection = 'courses' | 'content' | 'lessons' | 'countdown' | 'settings' | 'users';
+type AdminSection = 'courses' | 'countdown' | 'settings' | 'users';
 
 const NAV_ITEMS: { id: AdminSection; label: string; icon: React.ElementType }[] = [
   { id: 'courses', label: 'Courses', icon: GraduationCap },
-  { id: 'content', label: 'Units', icon: BookOpen },
-  { id: 'lessons', label: 'Lessons', icon: FileText },
   { id: 'countdown', label: 'Countdown', icon: Clock },
   { id: 'settings', label: 'Settings', icon: Settings },
   { id: 'users', label: 'Users', icon: Users },
@@ -31,6 +29,7 @@ export default function Admin() {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState<AdminSection>('courses');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
 
   if (isLoading) {
     return (
@@ -64,11 +63,15 @@ export default function Admin() {
   const renderContent = () => {
     switch (activeSection) {
       case 'courses':
-        return <CoursesManager />;
-      case 'content':
-        return <UnitsManager />;
-      case 'lessons':
-        return <LessonsManager />;
+        if (selectedCourse) {
+          return (
+            <CourseDetailManager
+              course={selectedCourse}
+              onBack={() => setSelectedCourse(null)}
+            />
+          );
+        }
+        return <CoursesManager onSelectCourse={setSelectedCourse} />;
       case 'countdown':
         return <CountdownEventsManager />;
       case 'settings':
@@ -111,6 +114,7 @@ export default function Admin() {
                   key={item.id}
                   onClick={() => {
                     setActiveSection(item.id);
+                    setSelectedCourse(null);
                     setSidebarOpen(false);
                   }}
                   className={cn(
