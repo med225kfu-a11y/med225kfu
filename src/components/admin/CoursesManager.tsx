@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useCourses, useCreateCourse, useUpdateCourse, useDeleteCourse } from '@/hooks/useCourses';
+import { Course } from '@/types/database';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -25,7 +26,7 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Plus, Pencil, Trash2, GraduationCap, Check, X } from 'lucide-react';
 
-export function CoursesManager() {
+export function CoursesManager({ onSelectCourse }: { onSelectCourse?: (course: Course) => void } = {}) {
   const { data: courses, isLoading } = useCourses();
   const createCourse = useCreateCourse();
   const updateCourse = useUpdateCourse();
@@ -113,7 +114,7 @@ export function CoursesManager() {
         {courses?.length === 0 ? (
           <p className="text-muted-foreground text-center py-4">No courses yet.</p>
         ) : (
-          <div className="space-y-2">
+           <div className="space-y-2">
             {courses?.map((course) => (
               <div key={course.id} className="flex items-center gap-2 p-3 bg-muted rounded-lg">
                 {editingId === course.id ? (
@@ -133,7 +134,12 @@ export function CoursesManager() {
                   </>
                 ) : (
                   <>
-                    <span className="flex-1 font-medium">{course.name}</span>
+                    <span
+                      className={onSelectCourse ? "flex-1 font-medium cursor-pointer hover:text-primary transition-colors" : "flex-1 font-medium"}
+                      onClick={() => onSelectCourse?.(course)}
+                    >
+                      {course.name}
+                    </span>
                     <Badge 
                       variant={course.status === 'active' ? 'default' : 'secondary'}
                       className="cursor-pointer"
