@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import { Textarea } from '@/components/ui/textarea';
 import { Loader2, Upload, X } from 'lucide-react';
 
 export function SiteSettingsManager() {
@@ -16,6 +17,8 @@ export function SiteSettingsManager() {
   
   const [title, setTitle] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const [quoteText, setQuoteText] = useState('');
+  const [isEditingQuote, setIsEditingQuote] = useState(false);
 
   const handleSaveTitle = async () => {
     if (!settings?.id || !title.trim()) return;
@@ -133,6 +136,60 @@ export function SiteSettingsManager() {
                 className="max-w-xs"
               />
               {isUploading && <Loader2 className="h-4 w-4 animate-spin" />}
+            </div>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <Label>Homepage Quote</Label>
+          {isEditingQuote ? (
+            <div className="space-y-2">
+              <Textarea
+                value={quoteText}
+                onChange={(e) => setQuoteText(e.target.value)}
+                placeholder="اكتب المقولة هنا..."
+                dir="rtl"
+                className="min-h-[120px]"
+              />
+              <div className="flex gap-2">
+                <Button
+                  onClick={async () => {
+                    if (!settings?.id) return;
+                    try {
+                      await updateSettings.mutateAsync({
+                        id: settings.id,
+                        updates: { quote_text: quoteText.trim() || null }
+                      });
+                      toast({ title: 'Quote updated successfully' });
+                      setIsEditingQuote(false);
+                    } catch {
+                      toast({ title: 'Failed to update quote', variant: 'destructive' });
+                    }
+                  }}
+                  disabled={updateSettings.isPending}
+                >
+                  Save
+                </Button>
+                <Button variant="outline" onClick={() => setIsEditingQuote(false)}>
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-start gap-2">
+              <span className="text-foreground whitespace-pre-line" dir="rtl">
+                {settings?.quote_text || <span className="text-muted-foreground italic">No quote set</span>}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setQuoteText(settings?.quote_text || '');
+                  setIsEditingQuote(true);
+                }}
+              >
+                Edit
+              </Button>
             </div>
           )}
         </div>
