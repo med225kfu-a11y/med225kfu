@@ -301,18 +301,21 @@ export type Database = {
         Row: {
           id: string
           logo_url: string | null
+          quote_text: string | null
           site_title: string
           updated_at: string
         }
         Insert: {
           id?: string
           logo_url?: string | null
+          quote_text?: string | null
           site_title?: string
           updated_at?: string
         }
         Update: {
           id?: string
           logo_url?: string | null
+          quote_text?: string | null
           site_title?: string
           updated_at?: string
         }

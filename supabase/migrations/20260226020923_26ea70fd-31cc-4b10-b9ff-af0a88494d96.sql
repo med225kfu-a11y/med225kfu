@@ -1,0 +1,1 @@
+ALTER TABLE public.site_settings ADD COLUMN quote_text text DEFAULT NULL;

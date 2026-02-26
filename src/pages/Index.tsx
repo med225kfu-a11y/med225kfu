@@ -1,12 +1,15 @@
 import { Header } from '@/components/Header';
 import { CoursesList } from '@/components/CoursesList';
 import { CountdownDisplay } from '@/components/CountdownDisplay';
+import { HomepageQuote } from '@/components/HomepageQuote';
 import { useActiveCourses } from '@/hooks/useCourses';
+import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { Link } from 'react-router-dom';
 import { Settings, Loader2 } from 'lucide-react';
 
 const Index = () => {
   const { data: courses, isLoading } = useActiveCourses();
+  const { data: settings } = useSiteSettings();
 
   return (
     <div className="min-h-screen bg-background">
@@ -19,7 +22,10 @@ const Index = () => {
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
         ) : (
-          <CoursesList courses={courses || []} />
+          <>
+            <CoursesList courses={courses || []} />
+            <HomepageQuote quoteText={settings?.quote_text} />
+          </>
         )}
       </main>
       

@@ -50,6 +50,7 @@ export interface SiteSettings {
   id: string;
   site_title: string;
   logo_url: string | null;
+  quote_text: string | null;
   updated_at: string;
 }
 
