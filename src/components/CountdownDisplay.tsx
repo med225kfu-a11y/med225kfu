@@ -110,9 +110,9 @@ export function CountdownDisplay() {
   }
 
   return (
-    <section className="mb-8">
-      <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-        <Clock className="h-5 w-5 text-primary" />
+    <section>
+      <h2 className="text-lg font-semibold mb-4 flex items-center gap-2 text-foreground">
+        <Clock className="h-5 w-5 text-foreground" strokeWidth={1.5} />
         Upcoming Events
       </h2>
       <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-2">

@@ -15,7 +15,7 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Header />
       
-      <main className="container mx-auto px-4 py-8">
+      <main className="w-full max-w-[900px] mx-auto px-4 py-12">
         <CountdownDisplay />
         {isLoading ? (
           <div className="flex items-center justify-center py-12">
@@ -23,14 +23,16 @@ const Index = () => {
           </div>
         ) : (
           <>
-            <CoursesList courses={courses || []} />
+            <div className="mt-[60px]">
+              <CoursesList courses={courses || []} />
+            </div>
             <HomepageQuote quoteText={settings?.quote_text} />
           </>
         )}
       </main>
       
-      <footer className="border-t border-border py-6 mt-8">
-        <div className="container mx-auto px-4 flex items-center justify-between">
+      <footer className="border-t border-border py-6 mt-[60px]">
+        <div className="w-full max-w-[900px] mx-auto px-4 flex items-center justify-between">
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} Academic Medical Community
           </p>
