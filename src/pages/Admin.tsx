@@ -74,6 +74,8 @@ export default function Admin() {
           );
         }
         return <CoursesManager onSelectCourse={setSelectedCourse} />;
+      case 'announcements':
+        return <AnnouncementsManager />;
       case 'countdown':
         return <CountdownEventsManager />;
       case 'settings':
