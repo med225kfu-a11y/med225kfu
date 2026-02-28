@@ -23,22 +23,12 @@ export function Header() {
 
       <div className="w-full max-w-[900px] mx-auto px-4 py-8 md:py-10">
         <div className="flex flex-col items-center gap-4">
-          {settings?.logo_url ? (
+          {settings?.logo_url && (
             <img 
               src={settings.logo_url} 
               alt="Logo" 
               className="h-16 md:h-20 w-auto object-contain"
             />
-          ) : (
-            <div
-              className="w-14 h-14 md:w-16 md:h-16 rounded-2xl flex items-center justify-center"
-              style={{
-                background: 'linear-gradient(135deg, hsl(270 12% 75%), hsl(270 12% 68%))',
-                boxShadow: '0 4px 12px -2px hsl(270 12% 60% / 0.3)',
-              }}
-            >
-              <GraduationCap className="h-7 w-7 md:h-8 md:w-8 text-white" />
-            </div>
           )}
           <h1
             className="text-2xl md:text-3xl lg:text-4xl text-center leading-tight"
