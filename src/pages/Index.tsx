@@ -57,14 +57,6 @@ const Index = () => {
 
         <div className="w-full max-w-[900px] mx-auto px-4 py-8">
           <div className="flex flex-col items-center gap-4">
-            <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center"
-              style={{
-                background: 'linear-gradient(135deg, hsl(270 12% 75% / 0.5), hsl(270 12% 68% / 0.5))',
-              }}
-            >
-              <GraduationCap className="h-5 w-5 text-foreground/50" />
-            </div>
             <p
               className="text-sm text-center"
               style={{ color: 'hsl(0 0% 50%)' }}
