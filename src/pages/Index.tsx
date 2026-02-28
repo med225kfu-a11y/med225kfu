@@ -6,7 +6,7 @@ import { AnnouncementsSlider } from '@/components/AnnouncementsSlider';
 import { useActiveCourses } from '@/hooks/useCourses';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { Link } from 'react-router-dom';
-import { Settings, Loader2 } from 'lucide-react';
+import { Settings, Loader2, GraduationCap } from 'lucide-react';
 
 const Index = () => {
   const { data: courses, isLoading } = useActiveCourses();
@@ -40,18 +40,48 @@ const Index = () => {
         <HomepageQuote quoteText={settings?.quote_text} />
       </main>
       
-      <footer className="border-t border-border py-6 mt-[60px]">
-        <div className="w-full max-w-[900px] mx-auto px-4 flex items-center justify-between">
-          <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Academic Medical Community
-          </p>
-          <Link 
-            to="/auth" 
-            className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1"
-          >
-            <Settings className="h-4 w-4" />
-            Admin
-          </Link>
+      <footer
+        className="relative mt-[60px]"
+        style={{
+          background: 'linear-gradient(135deg, hsl(34 30% 93%), hsl(270 15% 88%))',
+          borderTop: '1px solid hsl(270 12% 82% / 0.5)',
+        }}
+      >
+        {/* Decorative top line */}
+        <div
+          className="absolute top-0 left-0 right-0 h-[2px]"
+          style={{
+            background: 'linear-gradient(90deg, hsl(270 12% 78%), hsl(34 30% 80%), hsl(270 12% 78%))',
+          }}
+        />
+
+        <div className="w-full max-w-[900px] mx-auto px-4 py-8">
+          <div className="flex flex-col items-center gap-4">
+            <div
+              className="w-10 h-10 rounded-xl flex items-center justify-center"
+              style={{
+                background: 'linear-gradient(135deg, hsl(270 12% 75% / 0.5), hsl(270 12% 68% / 0.5))',
+              }}
+            >
+              <GraduationCap className="h-5 w-5 text-foreground/50" />
+            </div>
+            <p
+              className="text-sm text-center"
+              style={{ color: 'hsl(0 0% 50%)' }}
+            >
+              © {new Date().getFullYear()} Scientific Community of Med225
+            </p>
+            <Link 
+              to="/auth" 
+              className="text-xs flex items-center gap-1 transition-colors"
+              style={{ color: 'hsl(0 0% 60%)' }}
+              onMouseEnter={(e) => e.currentTarget.style.color = 'hsl(0 0% 40%)'}
+              onMouseLeave={(e) => e.currentTarget.style.color = 'hsl(0 0% 60%)'}
+            >
+              <Settings className="h-3.5 w-3.5" />
+              Admin
+            </Link>
+          </div>
         </div>
       </footer>
     </div>
