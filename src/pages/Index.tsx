@@ -6,7 +6,7 @@ import { AnnouncementsSlider } from '@/components/AnnouncementsSlider';
 import { useActiveCourses } from '@/hooks/useCourses';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { Link } from 'react-router-dom';
-import { Settings, Loader2 } from 'lucide-react';
+import { Settings, Loader2, GraduationCap } from 'lucide-react';
 
 const Index = () => {
   const { data: courses, isLoading } = useActiveCourses();
