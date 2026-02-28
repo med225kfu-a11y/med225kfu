@@ -2,6 +2,7 @@ import { Header } from '@/components/Header';
 import { CoursesList } from '@/components/CoursesList';
 import { CountdownDisplay } from '@/components/CountdownDisplay';
 import { HomepageQuote } from '@/components/HomepageQuote';
+import { AnnouncementsSlider } from '@/components/AnnouncementsSlider';
 import { useActiveCourses } from '@/hooks/useCourses';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { Link } from 'react-router-dom';
@@ -16,19 +17,27 @@ const Index = () => {
       <Header />
       
       <main className="w-full max-w-[900px] mx-auto px-4 py-12">
-        <CountdownDisplay />
+        {/* 1. Announcements */}
+        <AnnouncementsSlider />
+
+        {/* 2. Available Blocks */}
         {isLoading ? (
           <div className="flex items-center justify-center py-12">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
         ) : (
-          <>
-            <div className="mt-[60px]">
-              <CoursesList courses={courses || []} />
-            </div>
-            <HomepageQuote quoteText={settings?.quote_text} />
-          </>
+          <div className="mt-[60px]">
+            <CoursesList courses={courses || []} />
+          </div>
         )}
+
+        {/* 3. Countdown */}
+        <div className="mt-[60px]">
+          <CountdownDisplay />
+        </div>
+
+        {/* 4. Quote */}
+        <HomepageQuote quoteText={settings?.quote_text} />
       </main>
       
       <footer className="border-t border-border py-6 mt-[60px]">

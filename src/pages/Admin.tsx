@@ -8,17 +8,19 @@ import { CountdownEventsManager } from '@/components/admin/CountdownEventsManage
 import { CoursesManager } from '@/components/admin/CoursesManager';
 import { CourseDetailManager } from '@/components/admin/CourseDetailManager';
 import { Button } from '@/components/ui/button';
+import { AnnouncementsManager } from '@/components/admin/AnnouncementsManager';
 import { 
   Loader2, LogOut, Settings, Users, GraduationCap, 
-  Clock, Menu, X 
+  Clock, Menu, X, Megaphone 
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Course } from '@/types/database';
 
-type AdminSection = 'courses' | 'countdown' | 'settings' | 'users';
+type AdminSection = 'courses' | 'announcements' | 'countdown' | 'settings' | 'users';
 
 const NAV_ITEMS: { id: AdminSection; label: string; icon: React.ElementType }[] = [
   { id: 'courses', label: 'Courses', icon: GraduationCap },
+  { id: 'announcements', label: 'Announcements', icon: Megaphone },
   { id: 'countdown', label: 'Countdown', icon: Clock },
   { id: 'settings', label: 'Settings', icon: Settings },
   { id: 'users', label: 'Users', icon: Users },
@@ -72,6 +74,8 @@ export default function Admin() {
           );
         }
         return <CoursesManager onSelectCourse={setSelectedCourse} />;
+      case 'announcements':
+        return <AnnouncementsManager />;
       case 'countdown':
         return <CountdownEventsManager />;
       case 'settings':
