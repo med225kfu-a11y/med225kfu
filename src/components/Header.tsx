@@ -6,19 +6,48 @@ export function Header() {
   const { data: settings } = useSiteSettings();
   
   return (
-    <header className="bg-card border-b border-border">
-      <div className="container mx-auto px-4 py-6">
-        <div className="flex items-center justify-center gap-4">
+    <header
+      className="relative overflow-hidden"
+      style={{
+        background: 'linear-gradient(135deg, hsl(34 30% 93%), hsl(270 15% 88%))',
+        borderBottom: '1px solid hsl(270 12% 82% / 0.5)',
+      }}
+    >
+      {/* Decorative accent line */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[3px]"
+        style={{
+          background: 'linear-gradient(90deg, hsl(270 12% 78%), hsl(34 30% 80%), hsl(270 12% 78%))',
+        }}
+      />
+
+      <div className="w-full max-w-[900px] mx-auto px-4 py-8 md:py-10">
+        <div className="flex flex-col items-center gap-4">
           {settings?.logo_url ? (
             <img 
               src={settings.logo_url} 
               alt="Logo" 
-              className="h-16 w-auto object-contain"
+              className="h-16 md:h-20 w-auto object-contain"
             />
           ) : (
-            <GraduationCap className="h-12 w-12 text-primary" />
+            <div
+              className="w-14 h-14 md:w-16 md:h-16 rounded-2xl flex items-center justify-center"
+              style={{
+                background: 'linear-gradient(135deg, hsl(270 12% 75%), hsl(270 12% 68%))',
+                boxShadow: '0 4px 12px -2px hsl(270 12% 60% / 0.3)',
+              }}
+            >
+              <GraduationCap className="h-7 w-7 md:h-8 md:w-8 text-white" />
+            </div>
           )}
-          <h1 className="text-2xl md:text-3xl font-serif text-foreground text-center">
+          <h1
+            className="text-2xl md:text-3xl lg:text-4xl text-center leading-tight"
+            style={{
+              fontFamily: 'var(--font-serif)',
+              color: 'hsl(0 0% 28%)',
+              letterSpacing: '-0.01em',
+            }}
+          >
             {settings?.site_title || 'The Scientific Community of Med225'}
           </h1>
         </div>
@@ -31,7 +60,20 @@ export function AdminHeader() {
   const { data: settings } = useSiteSettings();
   
   return (
-    <header className="bg-card border-b border-border">
+    <header
+      className="relative"
+      style={{
+        background: 'linear-gradient(135deg, hsl(34 30% 93%), hsl(270 15% 88%))',
+        borderBottom: '1px solid hsl(270 12% 82% / 0.5)',
+      }}
+    >
+      <div
+        className="absolute top-0 left-0 right-0 h-[2px]"
+        style={{
+          background: 'linear-gradient(90deg, hsl(270 12% 78%), hsl(34 30% 80%), hsl(270 12% 78%))',
+        }}
+      />
+
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -42,7 +84,14 @@ export function AdminHeader() {
                 className="h-10 w-auto object-contain"
               />
             ) : (
-              <GraduationCap className="h-8 w-8 text-primary" />
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center"
+                style={{
+                  background: 'linear-gradient(135deg, hsl(270 12% 75%), hsl(270 12% 68%))',
+                }}
+              >
+                <GraduationCap className="h-5 w-5 text-white" />
+              </div>
             )}
             <div>
               <h1 className="text-lg font-serif text-foreground">
