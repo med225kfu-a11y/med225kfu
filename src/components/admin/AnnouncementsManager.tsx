@@ -158,6 +158,8 @@ function SortableAnnouncementItem({
 }
 
 export function AnnouncementsManager() {
+  const { uploadFile, deleteFile, isUploading } = useFileUpload();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { data: announcements, isLoading } = useAnnouncements();
   const createAnnouncement = useCreateAnnouncement();
   const updateAnnouncement = useUpdateAnnouncement();
