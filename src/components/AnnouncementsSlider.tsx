@@ -95,10 +95,10 @@ function AnnouncementSlide({ announcement }: { announcement: Announcement }) {
   const hasImage = !!announcement.image_url;
 
   return (
-    <div className="flex-[0_0_100%] min-w-0">
+    <div className="flex-[0_0_100%] min-w-0" dir="rtl">
       <div className={`p-8 md:p-10 ${hasImage ? 'md:flex md:items-center md:gap-8' : ''}`}>
         {/* Text content */}
-        <div className={`flex-1 ${hasImage ? 'md:max-w-[55%]' : 'text-center max-w-2xl mx-auto'}`}>
+        <div className={`flex-1 text-right ${hasImage ? 'md:max-w-[55%]' : 'text-center max-w-2xl mx-auto'}`}>
           <h3
             className="text-xl md:text-2xl font-bold mb-3"
             style={{ fontFamily: 'var(--font-serif)', color: 'hsl(0 0% 30%)' }}
