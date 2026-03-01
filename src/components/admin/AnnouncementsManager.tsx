@@ -346,13 +346,57 @@ export function AnnouncementsManager() {
               />
             </div>
             <div>
-              <Label htmlFor="ann-img">Image URL (optional)</Label>
-              <Input
-                id="ann-img"
-                value={form.image_url}
-                onChange={(e) => setForm((f) => ({ ...f, image_url: e.target.value }))}
-                placeholder="https://..."
-              />
+              <Label>صورة (اختياري)</Label>
+              {form.image_url ? (
+                <div className="relative mt-1 rounded-lg overflow-hidden border">
+                  <img src={form.image_url} alt="Preview" className="w-full h-32 object-cover" />
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="destructive"
+                    className="absolute top-1 right-1 h-7 w-7 p-0"
+                    onClick={() => setForm((f) => ({ ...f, image_url: '' }))}
+                  >
+                    <X className="h-3 w-3" />
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex gap-2 mt-1">
+                  <Input
+                    value={form.image_url}
+                    onChange={(e) => setForm((f) => ({ ...f, image_url: e.target.value }))}
+                    placeholder="رابط الصورة أو ارفع ملف..."
+                    className="flex-1"
+                  />
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      const url = await uploadFile(file, 'announcements');
+                      if (url) {
+                        setForm((f) => ({ ...f, image_url: url }));
+                        toast({ title: 'تم رفع الصورة' });
+                      } else {
+                        toast({ title: 'فشل رفع الصورة', variant: 'destructive' });
+                      }
+                      e.target.value = '';
+                    }}
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={isUploading}
+                  >
+                    {isUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+                  </Button>
+                </div>
+              )}
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
