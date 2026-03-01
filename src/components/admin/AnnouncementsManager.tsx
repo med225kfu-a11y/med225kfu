@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import {
   useAnnouncements,
   useCreateAnnouncement,
@@ -7,6 +7,7 @@ import {
   useReorderAnnouncements,
   Announcement,
 } from '@/hooks/useAnnouncements';
+import { useFileUpload } from '@/hooks/useFileUpload';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
