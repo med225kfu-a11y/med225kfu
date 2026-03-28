@@ -100,20 +100,23 @@ export function LessonCard({ lesson }: LessonCardProps) {
             {/* Quiz Links Section */}
             {quizLinks && quizLinks.length > 0 && (
               <div className="flex flex-wrap gap-2">
-                {quizLinks.map((quiz, index) => (
-                  <Button
-                    key={quiz.id}
-                    variant="secondary"
-                    size="sm"
-                    asChild
-                    className="gap-2"
-                  >
-                    <a href={quiz.url} target="_blank" rel="noopener noreferrer">
-                      <ExternalLink className="h-4 w-4" />
-                      Quiz {index + 1}
-                    </a>
-                  </Button>
-                ))}
+                {quizLinks.map((quiz, index) => {
+                  const quizUrl = /^https?:\/\//i.test(quiz.url) ? quiz.url : `https://${quiz.url}`;
+                  return (
+                    <Button
+                      key={quiz.id}
+                      variant="secondary"
+                      size="sm"
+                      asChild
+                      className="gap-2"
+                    >
+                      <a href={quizUrl} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="h-4 w-4" />
+                        Quiz {index + 1}
+                      </a>
+                    </Button>
+                  );
+                })}
               </div>
             )}
             
