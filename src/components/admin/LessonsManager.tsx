@@ -53,8 +53,13 @@ function QuizLinksEditor({ lessonId }: { lessonId: string }) {
 
   const handleAdd = async () => {
     if (!newUrl.trim()) return;
+    let url = newUrl.trim();
+    // Auto-prepend https:// if no protocol is specified
+    if (!/^https?:\/\//i.test(url)) {
+      url = 'https://' + url;
+    }
     try {
-      await createQuizLink.mutateAsync({ lessonId, url: newUrl.trim() });
+      await createQuizLink.mutateAsync({ lessonId, url });
       setNewUrl('');
     } catch (error: any) {
       if (error?.message?.includes('Maximum of 10')) {
