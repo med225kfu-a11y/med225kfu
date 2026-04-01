@@ -5,8 +5,7 @@ import { HomepageQuote } from '@/components/HomepageQuote';
 import { AnnouncementsSlider } from '@/components/AnnouncementsSlider';
 import { useActiveCourses } from '@/hooks/useCourses';
 import { useSiteSettings } from '@/hooks/useSiteSettings';
-import { Link } from 'react-router-dom';
-import { Settings, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
 const Index = () => {
   const { data: courses, isLoading } = useActiveCourses();
@@ -61,18 +60,8 @@ const Index = () => {
               className="text-sm text-center"
               style={{ color: 'hsl(0 0% 50%)' }}
             >
-              © {new Date().getFullYear()} Scientific Community of Med225
+              © 2025 All rights reserved | Prepared by Fatema Al-Shabeeb
             </p>
-            <Link 
-              to="/auth" 
-              className="text-xs flex items-center gap-1 transition-colors"
-              style={{ color: 'hsl(0 0% 60%)' }}
-              onMouseEnter={(e) => e.currentTarget.style.color = 'hsl(0 0% 40%)'}
-              onMouseLeave={(e) => e.currentTarget.style.color = 'hsl(0 0% 60%)'}
-            >
-              <Settings className="h-3.5 w-3.5" />
-              Admin
-            </Link>
           </div>
         </div>
       </footer>

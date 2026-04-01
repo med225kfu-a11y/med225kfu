@@ -1,5 +1,6 @@
 import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { Link } from 'react-router-dom';
+import { Settings } from 'lucide-react';
 
 export function Header() {
   const { data: settings } = useSiteSettings();
@@ -19,6 +20,18 @@ export function Header() {
           background: 'linear-gradient(90deg, hsl(270 12% 78%), hsl(34 30% 80%), hsl(270 12% 78%))',
         }}
       />
+
+      {/* Admin link top-left */}
+      <Link 
+        to="/auth" 
+        className="absolute top-4 left-4 z-10 text-xs flex items-center gap-1 transition-colors"
+        style={{ color: 'hsl(0 0% 60%)' }}
+        onMouseEnter={(e) => e.currentTarget.style.color = 'hsl(0 0% 40%)'}
+        onMouseLeave={(e) => e.currentTarget.style.color = 'hsl(0 0% 60%)'}
+      >
+        <Settings className="h-3.5 w-3.5" />
+        Admin
+      </Link>
 
       <div className="w-full max-w-[900px] mx-auto px-4 py-8 md:py-10">
         <div className="flex flex-col items-center gap-4">
